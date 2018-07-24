@@ -26,33 +26,17 @@ export default {
 		};
 	},
 	methods: {
-		handleLogin() {
-			// 发送登录请求,并添加参数
-			this.$http.post('login',this.form)
-				.then((res) => {
-					// console.log(res);
-					// 服务器返回的数据
-					const data = res.data;
-					// 判断登录是否成功
-					if(data.meta.status == 200) {
-						// 登录成功
-						// 1 跳转
-						// 2 提示
-						// 3 保存token====存在本地缓存中
-						sessionStorage.setItem('token',data.data.token);
-						this.$message({
-							message: '恭喜你，登录成功',
-							type: 'success'
-						});
-					} else {
-						// 登录失败
-						this.$message.error('抱歉,登录失败!');
-					}
-				})
-				.catch((err) => {
-					console.log(err);
-				})
-
+		async handleLogin() {
+			const res = await this.$http.post('login',this.form);
+			const data = res.data;
+			if(data.meta.status === 200) {
+				// 存储token
+				sessionStorage.setItem('token',data.data.token);
+				// 提示
+				this.$message.success('恭喜您,登录成功!');
+			} else{
+				this.$message.error('抱歉,登录失败!');
+			}
 		}
 	}
 };
