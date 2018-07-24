@@ -12,6 +12,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 // 全局配置ElementUI
 Vue.use(ElementUI);
 
+// 导入axios插件
+import MyAxios from '@/plugins/myaxios';
+// 全局注册axios
+Vue.use(MyAxios);
+
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

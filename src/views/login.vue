@@ -6,10 +6,10 @@
 				<el-input v-model="form.username"></el-input>
 			</el-form-item>
 			<el-form-item label-position="top" label="密码" prop="pass">
-				<el-input type="password" v-model="form.password" auto-complete="off"></el-input>
+				<el-input type="password" v-model="form.password" auto-complete="off" @keyup.enter.native="handleLogin"></el-input>
 			</el-form-item>
 			<el-form-item>
-				<el-button class="login-btn" type="primary" @click="onSubmit">登 录</el-button>
+				<el-button class="login-btn" type="primary" @click="handleLogin">登 录</el-button>
 			</el-form-item>
 		</el-form>
 	</div>
@@ -24,11 +24,41 @@ export default {
 				password: ''
 			}
 		};
+	},
+	methods: {
+		handleLogin() {
+			// 发送登录请求,并添加参数
+			this.$http.post('login',this.form)
+				.then((res) => {
+					// console.log(res);
+					// 服务器返回的数据
+					const data = res.data;
+					// 判断登录是否成功
+					if(data.meta.status == 200) {
+						// 登录成功
+						// 1 跳转
+						// 2 提示
+						// 3 保存token====存在本地缓存中
+						sessionStorage.setItem('token',data.data.token);
+						this.$message({
+							message: '恭喜你，登录成功',
+							type: 'success'
+						});
+					} else {
+						// 登录失败
+						this.$message.error('抱歉,登录失败!');
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+
+		}
 	}
 };
 </script>
 
-<style>
+<style scoped>
 	.login-wrap {
 		background-color: #324152;
 		height: 100%;
