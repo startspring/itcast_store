@@ -10,7 +10,18 @@
 
 <script>
 export default {
-
+	// 判断是否登录data不能用
+	beforeCreate() {
+		// 通过sessionStorage中是否有token
+		const token = sessionStorage.getItem('token');
+		if(!token) {
+			// 如果token不存在跳转登录页面
+			this.$router.push({ name:'login'});
+			// 提示登录
+			this.$message.warning('请先登录!');
+		}
+		
+	}
 };
 </script>
 

@@ -34,6 +34,8 @@ export default {
 				sessionStorage.setItem('token',data.data.token);
 				// 提示
 				this.$message.success('恭喜您,登录成功!');
+				// 跳转
+				this.$router.push({ name:'home' });
 			} else{
 				this.$message.error('抱歉,登录失败!');
 			}
